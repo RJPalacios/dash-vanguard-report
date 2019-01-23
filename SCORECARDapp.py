@@ -12,7 +12,9 @@ app = dash.Dash()
 server = app.server
 
 # read data for tables (one df per table)
-df_fund_facts = pd.read_csv('https://plot.ly/~bdun9/2754.csv')
+#df_fund_facts = pd.read_csv('https://plot.ly/~bdun9/2754.csv')
+df_fund_facts = pd.read_csv('C:/Users/rick/Downloads/2754(3).csv')
+
 df_price_perf = pd.read_csv('https://plot.ly/~bdun9/2756.csv')
 df_current_prices = pd.read_csv('https://plot.ly/~bdun9/2753.csv')
 df_hist_prices = pd.read_csv('https://plot.ly/~bdun9/2765.csv')
@@ -49,7 +51,7 @@ for f in my_fucking_funds:
     usaa_fund1.add_fund_return_info(pd.DataFrame(data={'year':["1 Year", "3 Year", "5 Year", "10 Year", "41 Year"], 'returns': ["21.67", "11.26", "15.62", "8.37", "11.11"]}))
     usaa_fund1.add_benchmark_return(pd.DataFrame(data ={'year':["1 Year", "3 Year", "5 Year", "10 Year", "41 Year"], 'returns':["21.83", "11.41", "15.79", "8.50", '12.5']}))
 
-# reusable componenets
+# reusable components
 def make_dash_table(df):
     ''' Return a dash definitio of an HTML table for a Pandas dataframe '''
     table = []
@@ -87,7 +89,7 @@ def get_header():
 
         html.Div([
             html.H5(
-                '1H2018 Managed Portfolios Semi Annual Review')
+                'January 2019 UMP Manager Research Scorecard')
         ], className="twelve columns padded")
 
     ], className="row gs-header gs-text-header")
@@ -99,15 +101,15 @@ def get_menu():
 
         dcc.Link('Overview   ', href='/overview', className="tab first"),
 
-        dcc.Link('Price Performance   ', href='/price-performance', className="tab"),
+        dcc.Link('Performance   ', href='/price-performance', className="tab"),
 
-        dcc.Link('Portfolio & Management   ', href='/portfolio-management', className="tab"),
+        dcc.Link('Exposures  ', href='/portfolio-management', className="tab"),
 
         dcc.Link('Scorecard   ', href='/fees', className="tab"),
 
         dcc.Link('Team   ', href='/distributions', className="tab"),
 
-        dcc.Link('News & Reviews   ', href='/news-and-reviews', className="tab")
+        dcc.Link('Operations & Contacts   ', href='/news-and-reviews', className="tab")
 
     ], className="row ")
     return menu
@@ -136,9 +138,8 @@ overview = html.Div([  # page 1
                     html.Br([]),
 
                     html.P("\
-                            As the industry’s first index fund for individual investors, \
-                            the 500 Index Fund is a low-cost way to gain diversified exposure \
-                            to the U.S. equity market. The fund offers exposure to 500 of the \
+                            High level description of strategy, firm, and process.\
+                            Example: The fund offers exposure to 500 of the \
                             largest U.S. companies, which span many different industries and \
                             account for about three-fourths of the U.S. stock market’s value. \
                             The key risk for the fund is the volatility that comes with its full \
@@ -149,7 +150,7 @@ overview = html.Div([  # page 1
                 ], className="six columns"),
 
                 html.Div([
-                    html.H6(["FUNDNAME1"],
+                    html.H6(["Fund Facts"],
                             className="gs-header gs-table-header padded"),
                     html.Table(make_dash_table(df_fund_facts))
                 ], className="six columns"),
@@ -161,7 +162,7 @@ overview = html.Div([  # page 1
             html.Div([
 
                 html.Div([
-                    html.H6('Rolling Returns',
+                    html.H6('Rolling Excess Returns',
                             className="gs-header gs-text-header padded"),
                     dcc.Graph(
                         id = "graph-1",
@@ -243,7 +244,7 @@ overview = html.Div([  # page 1
                 ], className="six columns"),
 
                 html.Div([
-                    html.H6("FUNDNAME1 SYMBOL",
+                    html.H6("Member Experience",
                             className="gs-header gs-table-header padded"),
                     dcc.Graph(
                         id="grpah-2",
@@ -254,7 +255,7 @@ overview = html.Div([  # page 1
                                     y = ["10000", "7500", "9000", "10000", "10500", "11000", "14000", "18000", "19000", "20500", "24000"],
                                     line = {"color": "rgb(53, 83, 255)"},
                                     mode = "lines",
-                                    name = "500 Index Fund Inv"
+                                    name = "Implemented June 30, 2016"
                                 )
                             ],
                             'layout': go.Layout(
@@ -319,13 +320,13 @@ overview = html.Div([  # page 1
             html.Div([
 
                 html.Div([
-                    html.H6('Fund Facts',
+                    html.H6('Scorecard Summary',
                             className="gs-header gs-table-header padded"),
                     html.Table(make_dash_table(df_price_perf))
                 ], className="six columns"),
 
                 html.Div([
-                    html.H6("Scorecard Rating",
+                    html.H6("Rating",
                             className="gs-header gs-table-header padded"),
                     dcc.Graph(
                         id='graph-3',
@@ -413,7 +414,7 @@ overview = html.Div([  # page 1
                                         "size": 10
                                       },
                                       "showarrow": False,
-                                      "text": "<b>Less risk<br>Less reward</b>",
+                                      "text": "<b>Poor Fit<br>Redeem $</b>",
                                       "xref": "x",
                                       "yref": "y"
                                     },
@@ -427,7 +428,7 @@ overview = html.Div([  # page 1
                                         "size": 10
                                       },
                                       "showarrow": False,
-                                      "text": "<b>More risk<br>More reward</b>",
+                                      "text": "<b>Best in Class<br>Firm & Strategy</b>",
                                       "xref": "x",
                                       "yref": "y"
                                     }
@@ -512,14 +513,14 @@ pricePerformance = html.Div([  # page 2
             html.Div([
 
                 html.Div([
-                    html.H6(["Current Prices"],
+                    html.H6(["As of 12/30/18"],
                             className="gs-header gs-table-header padded"),
                     html.Table(make_dash_table(df_current_prices))
 
                 ], className="six columns"),
 
                 html.Div([
-                    html.H6(["Historical Prices"],
+                    html.H6(["Annual Returns"],
                             className="gs-header gs-table-header padded"),
                     html.Table(make_dash_table(df_hist_prices))
                 ], className="six columns"),
@@ -539,17 +540,17 @@ pricePerformance = html.Div([  # page 2
                             'data': [
                                 go.Scatter(
                                     x = df_graph['Date'],
-                                    y = df_graph['Vanguard 500 Index Fund'],
+                                    y = df_graph['Vanguard 500 Index Fund'], # column name in csv file
                                     line = {"color": "rgb(53, 83, 255)"},
                                     mode = "lines",
-                                    name = "Vanguard 500 Index Fund"
+                                    name = "Vanguard" # legend name
                                 ),
                                 go.Scatter(
                                     x = df_graph['Date'],
                                     y = df_graph['MSCI EAFE Index Fund (ETF)'],
                                     line = {"color": "rgb(255, 225, 53)"},
                                     mode = "lines",
-                                    name = "MSCI EAFE Index Fund (ETF)"
+                                    name = "SP 500"
                                 )
                             ],
                             'layout': go.Layout(
@@ -629,7 +630,7 @@ pricePerformance = html.Div([  # page 2
             html.Div([
 
                 html.Div([
-                    html.H6(["Average annual returns--updated monthly as of 02/28/2018"], className="gs-header gs-table-header tiny-header"),
+                    html.H6(["Trailing Returns"], className="gs-header gs-table-header tiny-header"),
                     html.Table(make_dash_table(df_avg_returns), className="tiny-header")
                 ], className=" twelve columns"),
 
@@ -640,7 +641,7 @@ pricePerformance = html.Div([  # page 2
             html.Div([
 
                 html.Div([
-                    html.H6(["After-tax returns--updated quarterly as of 12/31/2017"], className="gs-header gs-table-header tiny-header"),
+                    html.H6(["vs Peers & Category"], className="gs-header gs-table-header tiny-header"),
                     html.Table(make_dash_table(df_after_tax), className="tiny-header")
                 ], className=" twelve columns"),
 
@@ -651,7 +652,7 @@ pricePerformance = html.Div([  # page 2
             html.Div([
 
                 html.Div([
-                    html.H6(["Recent investment returns"], className="gs-header gs-table-header tiny-header"),
+                    html.H6(["Ratios"], className="gs-header gs-table-header tiny-header"),
                     html.Table(make_dash_table(df_recent_returns), className="tiny-header")
                 ], className=" twelve columns"),
 
@@ -929,7 +930,7 @@ portfolioManagement = html.Div([ # page 3
             html.Div([
 
                 html.Div([
-                    html.H6(["Equity characteristics as of 01/31/2018"], className="gs-header gs-table-header tiny-header"),
+                    html.H6(["Factor Exposures as of 01/31/2018"], className="gs-header gs-table-header tiny-header"),
                     html.Table(make_dash_table(df_equity_char), className="tiny-header")
                 ], className=" twelve columns"),
 
@@ -940,7 +941,7 @@ portfolioManagement = html.Div([ # page 3
             html.Div([
 
                 html.Div([
-                    html.H6(["Equity sector diversification"], className="gs-header gs-table-header tiny-header"),
+                    html.H6(["Sector Active Weight"], className="gs-header gs-table-header tiny-header"),
                     html.Table(make_dash_table(df_equity_diver), className="tiny-header")
                 ], className=" twelve columns"),
 
@@ -1157,14 +1158,14 @@ feesMins = html.Div([  # page 4
                             html.Strong(["Multi manager quantitative approach"]),
                             html.P(["Closet Passive Active Manager"]),
                             html.Br([]),
-                            html.Strong(["SIMPLE IRAs"]),
+                            html.Strong(["Return Expectations"]),
                             html.P(["Cheap beta relative to other CLoset Passive solutions"]),
                             html.Br([]),
                             html.Strong(["403(b)(7) plans"]),
                             html.P(["Equal weight DE Shaw, Vanguard QIS, and LA Capital are the current line up"]),
                             html.Br([]),
-                            html.Strong(["Individual 401(k) plans"]),
-                            html.P(["If this fund outperformas by 200bp over ANY period, we should initiate watchlist coverage, something is wrong.... "]),
+                            html.Strong(["Sub-advisor Lineup"]),
+                            html.P(["Outperformance of 200bp over ANY period = Initiate watchlist; something is wrong.... "]),
                             html.Br([]),
                         ], className="nine columns")
 
